@@ -12,13 +12,91 @@ const links = [
 ] as const;
 
 const photos = [
-  { number: "04", caption: "My girlfriend's cat, Kirby", src: "/photos/kirby.jpg", alt: "Kirby the cat", imageClassName: "kirby-photo" },
-  { number: "03", caption: "My dog Barkley, 5 yo", src: "/photos/barkley.jpg", alt: "Brady's dog Barkley", imageClassName: "" },
-  { number: "02", caption: "My beautiful girlfriend and me", src: "/photos/me-and-gf.jpg", alt: "Brady and his girlfriend", imageClassName: "" },
-  { number: "01", caption: "My junior year of college", src: "/photos/headshot-photo.jpg", alt: "Brady during his junior year of college", imageClassName: "" },
+  {
+    number: "04",
+    caption: "My girlfriend's cat, Kirby",
+    src: "/photos/kirby.jpg",
+    alt: "Kirby the cat",
+    imageClassName: "kirby-photo",
+  },
+  {
+    number: "03",
+    caption: "My dog Barkley, 5 yo",
+    src: "/photos/barkley.jpg",
+    alt: "Brady's dog Barkley",
+    imageClassName: "",
+  },
+  {
+    number: "02",
+    caption: "My beautiful girlfriend and me",
+    src: "/photos/me-and-gf.jpg",
+    alt: "Brady and his girlfriend",
+    imageClassName: "",
+  },
+  {
+    number: "01",
+    caption: "My junior year of college",
+    src: "/photos/headshot-photo.jpg",
+    alt: "Brady during his junior year of college",
+    imageClassName: "",
+  },
 ] as const;
 
 const photoPositions = ["photo-one", "photo-two", "photo-three", "photo-four"];
+
+type TabId = "work" | "projects" | "education";
+
+const tabs: { id: TabId; label: string }[] = [
+  { id: "work", label: "Work Experience" },
+  { id: "projects", label: "Projects" },
+  { id: "education", label: "Education" },
+];
+
+/* Add a short description of your responsibilities, impact, and what you learned in this role. */
+
+const workExperiences = [
+  {
+    number: "01",
+    role: "Full-Stack Software Engineer Intern",
+    company: "RevCycle Partners",
+    period: "May 2025 — August 2025",
+    description:
+      "Integrated legacy and modern systems to support scalable, long-term architecture. Implemented AI automation tooling into production systems to optimize workflows. Built and integrated full-stack components, performing thorough testing prior to production deployment.",
+  },
+
+  {
+    number: "02",
+    role: "Student IT Assistant",
+    company: "Joliet Junior College",
+    period: "August 2022 — August 2024",
+    description:
+      "Maintained and managed technology systems across more than 300 classrooms, ensuring reliable operation. Designed a new e-waste disposal process for technology across four college campuses, creating standardized processes adopted for ongoing use. Supported administrative ERP/business systems, assisting staff and students with system navigation, troubleshooting, and process-related questions.",
+  },
+];
+
+const projects = [
+  {
+    number: "01",
+    name: "Breezumé | AI-Powered Career Tool",
+    description:
+      "My largest project yet, to assist job-seeking users with 8 AI assisted functions to help them find a career.",
+    stack: ["React", "Typescript", "Tailwind CSS"],
+  },
+  {
+    number: "02",
+    name: "Illinois State Marketplace",
+    description:
+      "A simple security-focused program to simulate a local marketplace application for students at Illinois State.",
+    stack: ["Java", "SQL"],
+  },
+  {
+    number: "03",
+    name: "Library Management System",
+    description:
+      "A simple security-focused program to handle a scalable library inventory system.",
+    stack: ["Java", "SQL"],
+  },
+];
 
 function LinkIcon({ name }: { name: (typeof links)[number]["icon"] }) {
   if (name === "linkedin")
@@ -48,9 +126,13 @@ function LinkIcon({ name }: { name: (typeof links)[number]["icon"] }) {
 
 export default function App() {
   const [photoOrder, setPhotoOrder] = useState([...photos]);
+  const [activeTab, setActiveTab] = useState<TabId>("work");
 
   const sendTopPhotoToBack = () => {
-    setPhotoOrder((current) => [current[current.length - 1], ...current.slice(0, -1)]);
+    setPhotoOrder((current) => [
+      current[current.length - 1],
+      ...current.slice(0, -1),
+    ]);
   };
 
   return (
@@ -89,7 +171,11 @@ export default function App() {
               aria-hidden={index !== photoOrder.length - 1}
             >
               <div className="photo-placeholder">
-                <img className={photo.imageClassName} src={photo.src} alt={photo.alt} />
+                <img
+                  className={photo.imageClassName}
+                  src={photo.src}
+                  alt={photo.alt}
+                />
               </div>
               <figcaption>
                 <span>{photo.caption}</span>
@@ -110,7 +196,107 @@ export default function App() {
             </figure>
           ))}
         </div>
-        <p className="sr-only" aria-live="polite">Showing {photoOrder[photoOrder.length - 1].caption}</p>
+        <p className="sr-only" aria-live="polite">
+          Showing {photoOrder[photoOrder.length - 1].caption}
+        </p>
+      </section>
+      <section className="details-section" aria-labelledby="details-heading">
+        <div className="section-heading">
+          <p className="section-kicker">More about me</p>
+          <h2 id="details-heading">The work behind the person.</h2>
+        </div>
+
+        <div className="tabs" role="tablist" aria-label="Portfolio details">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              id={`${tab.id}-tab`}
+              className={
+                activeTab === tab.id ? "tab-button active" : "tab-button"
+              }
+              type="button"
+              role="tab"
+              aria-selected={activeTab === tab.id}
+              aria-controls={`${tab.id}-panel`}
+              onClick={() => setActiveTab(tab.id)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        <div
+          className="tab-panel"
+          id={`${activeTab}-panel`}
+          role="tabpanel"
+          aria-labelledby={`${activeTab}-tab`}
+        >
+          {activeTab === "work" && (
+            <div className="details-grid work-grid">
+              {workExperiences.map((experience) => (
+                <article className="detail-card" key={experience.number}>
+                  <div className="card-meta">
+                    <span>{experience.number}</span>
+                    <span>{experience.period}</span>
+                  </div>
+                  <h3>{experience.role}</h3>
+                  <p className="card-subtitle">{experience.company}</p>
+                  <p className="card-description">{experience.description}</p>
+                </article>
+              ))}
+            </div>
+          )}
+
+          {activeTab === "projects" && (
+            <div className="details-grid project-grid">
+              {projects.map((project) => (
+                <article className="detail-card" key={project.number}>
+                  <div className="card-meta">
+                    <span>{project.number}</span>
+                    <span>Project</span>
+                  </div>
+                  <h3>{project.name}</h3>
+                  <p className="card-description">{project.description}</p>
+                  <ul
+                    className="tech-stack"
+                    aria-label={`${project.name} technology stack`}
+                  >
+                    {project.stack.map((technology, index) => (
+                      <li key={`${project.number}-${index}`}>{technology}</li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+          )}
+
+          {activeTab === "education" && (
+            <article className="education-card">
+              <div className="education-main">
+                <p className="card-meta">
+                  <span>Illinois State University</span>
+                  <span>Normal, Illinois</span>
+                </p>
+                <h3>B.S. in Computer Science</h3>
+                <p className="card-subtitle">Senior Undergraduate</p>
+                <p className="card-subtitle">GPA: 3.72 / 4.00</p>
+              </div>
+              <div className="coursework">
+                <h4>Highlighted Coursework</h4>
+                <ul>
+                  <li>Data Structures & Algorithims (Java/C++)</li>
+                  <li>Database Design</li>
+                  <li>Systems Development</li>
+                  <li>Study of Artificial Intelligence</li>
+                  <li>Secure Software Development</li>
+                  <li>Parallel and Distributed Computing</li>
+                  <li>Study of Operating Systems</li>
+                  <li>Theory of Computation</li>
+                </ul>
+              </div>
+            </article>
+          )}
+        </div>
       </section>
       <footer>BRADY / SOFTWARE ENGINEER / 2026</footer>
     </main>
