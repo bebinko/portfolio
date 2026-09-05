@@ -125,20 +125,40 @@ const projects = [
 const projectReviews = [
   {
     number: "01",
-    overview:
-      "Breezumé is an AI-assisted career platform designed to bring several parts of the job-search process into one focused experience. Any user can upload their resume with a specific job description and have it scored based on the resume's compatibility with the job posting. A user can then generate AI-powered revisions to raise their ATS score, and also generate a tailored cover letter for that job. Other features include more ways of upgrading your resume, finding real job postings based on your qualifications, and job screenings to prevent fake job scams. Breezume is created with the open-source project Puter.js, users can use Breezume mostly free of charge with limited use. All transactions go directly to the creators of Puter.js for helping me out on this project.",
+    overview: [
+      "Breezumé is an AI-assisted career platform that brings several parts of the job search into one focused experience.",
+      "Users can upload a résumé alongside a job description and receive a compatibility score based on that posting.",
+      "They can then generate targeted revisions to improve the résumé's ATS score and create a tailored cover letter.",
+      "Additional tools help users strengthen their résumé, find relevant job postings based on their qualifications, and screen listings for potential scams.",
+      "The platform uses the open-source Puter.js project, allowing most features to remain available with limited free usage.",
+      "Any resulting service transactions go directly to the creators of Puter.js.",
+    ],
   },
   {
     number: "02",
-    overview:
-      "This marketplace simulation application is meant to study Java programming vulnerabilities and the prevention of attacks. This is an application using both Java and SQL and is heavily focused on preventing injection attacks and bad data. This was a project for my Secure Software Development class in college.",
+    overview: [
+      "The Illinois State Marketplace is a simulated campus marketplace built to study common Java application vulnerabilities and ways to prevent attacks.",
+      "The project uses Java and SQL, with an emphasis on rejecting unsafe data and preventing injection attacks.",
+      "I developed it as part of my college Secure Software Development course.",
+    ],
   },
   {
     number: "03",
-    overview:
-      "The library management simulation application is meant to highlight not only security of a application, but also the scalability of databases. This application focuses on fixing common Java and SQL vulnerabilites and prevention of injection attacks. This was a project for my Secure Software Development class in college.",
+    overview: [
+      "The Library Management System is a simulation focused on both application security and scalable database design.",
+      "It addresses common Java and SQL vulnerabilities, including unsafe input and injection attacks.",
+      "I developed it as part of my college Secure Software Development course.",
+    ],
   },
 ];
+
+const upcomingProjectRepo = "#";
+
+function SiteFooter() {
+  return (
+    <footer className="site-footer">BRADY / SOFTWARE ENGINEER / 2026</footer>
+  );
+}
 
 function LinkIcon({ name }: { name: (typeof links)[number]["icon"] }) {
   if (name === "linkedin")
@@ -394,7 +414,7 @@ function HomePage() {
           )}
         </div>
       </section>
-      <footer>BRADY / SOFTWARE ENGINEER / 2026</footer>
+      <SiteFooter />
     </main>
   );
 }
@@ -415,61 +435,149 @@ function SiteNav() {
 
 function ProjectsPage() {
   usePageTitle("Brady's Portfolio | Projects");
+  const [projectCategory, setProjectCategory] = useState<
+    "deployed" | "upcoming"
+  >("deployed");
+
   return (
     <main className="page-shell projects-page">
       <header className="page-heading">
-        <p className="section-kicker">Selected work</p>
+        <div
+          className="project-switch"
+          role="tablist"
+          aria-label="Project status"
+        >
+          <button
+            type="button"
+            role="tab"
+            aria-selected={projectCategory === "deployed"}
+            onClick={() => setProjectCategory("deployed")}
+          >
+            Deployed Projects
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={projectCategory === "upcoming"}
+            onClick={() => setProjectCategory("upcoming")}
+          >
+            Upcoming Projects
+          </button>
+        </div>
         <h1>
-          Projects built with purpose<span className="accent">.</span>
+          {projectCategory === "deployed"
+            ? "Projects built with purpose"
+            : "What I'm building next"}
+          <span className="accent">.</span>
         </h1>
         <p>
-          A closer look at the projects that shaped how I approach engineering,
-          security, and useful software.
+          {projectCategory === "deployed"
+            ? "A closer look at the projects that shaped how I approach engineering, security, and useful software."
+            : "A place for the ideas and applications currently in development."}
         </p>
       </header>
 
-      <div className="project-showcase">
-        {projectReviews.map((review, index) => {
-          const project = projects[index];
-          return (
-            <article className="project-feature" key={project.number}>
-              <div className={`project-preview project-preview-${index + 1}`}>
-                <div className="preview-toolbar">
-                  <span />
-                  <span />
-                  <span />
+      {projectCategory === "deployed" ? (
+        <div className="project-showcase">
+          {projectReviews.map((review, index) => {
+            const project = projects[index];
+            return (
+              <article className="project-feature" key={project.number}>
+                <div className={`project-preview project-preview-${index + 1}`}>
+                  <div className="preview-toolbar">
+                    <span />
+                    <span />
+                    <span />
+                  </div>
+                  <img
+                    className={`project-preview-image ${project.previewClassName}`}
+                    src={project.preview}
+                    alt={project.previewAlt}
+                  />
                 </div>
-                <img
-                  className={`project-preview-image ${project.previewClassName}`}
-                  src={project.preview}
-                  alt={project.previewAlt}
-                />
+                <div className="project-feature-copy">
+                  <p className="card-meta">
+                    <span>0{index + 1}</span>
+                    <span>Featured project</span>
+                  </p>
+                  <h2>{project.name}</h2>
+                  <div className="project-review">
+                    <p className="review-label">Project review</p>
+                    <div className="review-lines">
+                      {review.overview.map((sentence) => (
+                        <p key={sentence}>{sentence}</p>
+                      ))}
+                    </div>
+                  </div>
+                  <ul
+                    className="tech-stack"
+                    aria-label={`${project.name} technology stack`}
+                  >
+                    {project.stack.map((technology) => (
+                      <li key={technology}>{technology}</li>
+                    ))}
+                  </ul>
+                  <ProjectLinks project={project} />
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="project-showcase upcoming-showcase">
+          <article className="project-feature upcoming-feature">
+            <div className="project-preview upcoming-preview">
+              <div className="preview-toolbar">
+                <span />
+                <span />
+                <span />
               </div>
-              <div className="project-feature-copy">
-                <p className="card-meta">
-                  <span>0{index + 1}</span>
-                  <span>Featured project</span>
-                </p>
-                <h2>{project.name}</h2>
-                <div className="project-review">
-                  <p className="review-label">Project review</p>
-                  <p>{review.overview}</p>
+              <img
+                className="project-preview-image"
+                src="/photos/cooking.webp"
+                alt="Assortment of cooking spices and ingredients"
+              />
+            </div>
+            <div className="project-feature-copy">
+              <p className="card-meta">
+                <span>01</span>
+                <span>In development</span>
+              </p>
+              <h2>Cooking AI Mobile App</h2>
+              <div className="project-review">
+                <p className="review-label">Project review</p>
+                <div className="review-lines">
+                  <p>
+                    An AI-Powered cooking app, designed to give you
+                    recommendation on what to cook based off of the food in your
+                    fridge.
+                  </p>
+                  <p>The github repo is not public yet</p>
                 </div>
-                <ul
-                  className="tech-stack"
-                  aria-label={`${project.name} technology stack`}
+              </div>
+              <ul
+                className="tech-stack"
+                aria-label="Upcoming project technology stack"
+              >
+                <li>Kotlin</li>
+                <li>Python</li>
+                <li>SQL</li>
+              </ul>
+              <div className="project-links">
+                <a
+                  className="project-repo"
+                  href={upcomingProjectRepo}
+                  aria-label="Open Cooking AI Mobile App GitHub repository"
                 >
-                  {project.stack.map((technology) => (
-                    <li key={technology}>{technology}</li>
-                  ))}
-                </ul>
-                <ProjectLinks project={project} />
+                  <LinkIcon name="github" />
+                  <span>GitHub repo</span>
+                </a>
               </div>
-            </article>
-          );
-        })}
-      </div>
-      <footer>BRADY / SOFTWARE ENGINEER / 2026</footer>
+            </div>
+          </article>
+        </div>
+      )}
+      <SiteFooter />
     </main>
   );
 }
@@ -499,6 +607,7 @@ function ContactPage() {
           </a>
         </div>
       </section>
+      <SiteFooter />
     </main>
   );
 }
