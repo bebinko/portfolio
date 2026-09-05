@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { NavLink, Route, Routes } from "react-router";
 
 const links = [
   { label: "Resume", href: "/resume.pdf", icon: "doc" },
@@ -28,7 +29,7 @@ const photos = [
   },
   {
     number: "02",
-    caption: "My beautiful girlfriend and me",
+    caption: "My beautiful girlfriend and I",
     src: "/photos/me-and-gf.jpg",
     alt: "my girlfriend and me",
     imageClassName: "",
@@ -93,6 +94,9 @@ const projects = [
     stack: ["React", "Typescript", "Tailwind CSS"],
     repo: "https://github.com/bebinko/ai-resume-analyzer",
     website: "https://breezume.vercel.app/",
+    preview: "/photos/breezume-home.png",
+    previewAlt: "Breezumé application home screen",
+    previewClassName: "project-screenshot",
   },
   {
     number: "02",
@@ -101,6 +105,9 @@ const projects = [
       "A simple security-focused program to simulate a local marketplace application for students at Illinois State.",
     stack: ["Java", "SQL"],
     repo: "https://github.com/itsreverence/isu-marketplace",
+    preview: "/photos/illinois-state.jpg",
+    previewAlt: "Aerial view of the Illinois State University campus",
+    previewClassName: "",
   },
   {
     number: "03",
@@ -109,6 +116,27 @@ const projects = [
       "A simple security-focused program to handle a scalable library inventory system.",
     stack: ["Java", "SQL"],
     repo: "https://github.com/szyluc/Secure-Java-Coding-Guidelines-IT355",
+    preview: "/photos/illinois-state-library.jpg",
+    previewAlt: "Milner Library at Illinois State University",
+    previewClassName: "",
+  },
+];
+
+const projectReviews = [
+  {
+    number: "01",
+    overview:
+      "Breezumé is an AI-assisted career platform designed to bring several parts of the job-search process into one focused experience. Any user can upload their resume with a specific job description and have it scored based on the resume's compatibility with the job posting. A user can then generate AI-powered revisions to raise their ATS score, and also generate a tailored cover letter for that job. Other features include more ways of upgrading your resume, finding real job postings based on your qualifications, and job screenings to prevent fake job scams. Breezume is created with the open-source project Puter.js, users can use Breezume mostly free of charge with limited use. All transactions go directly to the creators of Puter.js for helping me out on this project.",
+  },
+  {
+    number: "02",
+    overview:
+      "This marketplace simulation application is meant to study Java programming vulnerabilities and the prevention of attacks. This is an application using both Java and SQL and is heavily focused on preventing injection attacks and bad data. This was a project for my Secure Software Development class in college.",
+  },
+  {
+    number: "03",
+    overview:
+      "The library management simulation application is meant to highlight not only security of a application, but also the scalability of databases. This application focuses on fixing common Java and SQL vulnerabilites and prevention of injection attacks. This was a project for my Secure Software Development class in college.",
   },
 ];
 
@@ -138,7 +166,45 @@ function LinkIcon({ name }: { name: (typeof links)[number]["icon"] }) {
   );
 }
 
-export default function App() {
+function usePageTitle(title: string) {
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
+}
+
+function ProjectLinks({ project }: { project: (typeof projects)[number] }) {
+  return (
+    <div className="project-links">
+      <a
+        className="project-repo"
+        href={project.repo}
+        target="_blank"
+        rel="noreferrer"
+        aria-label={`Open ${project.name} GitHub repository`}
+      >
+        <LinkIcon name="github" />
+        <span>GitHub repo</span>
+      </a>
+      {project.website && (
+        <a
+          className="project-repo"
+          href={project.website}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`Open ${project.name} website`}
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M14 5h5v5M19 5l-8 8M17 13v6H5V7h6" />
+          </svg>
+          <span>Website</span>
+        </a>
+      )}
+    </div>
+  );
+}
+
+function HomePage() {
+  usePageTitle("Brady's Portfolio | Home");
   const [photoOrder, setPhotoOrder] = useState([...photos]);
   const [activeTab, setActiveTab] = useState<TabId>("work");
 
@@ -293,28 +359,7 @@ export default function App() {
                       <li key={`${project.number}-${index}`}>{technology}</li>
                     ))}
                   </ul>
-                  <div className="project-links">
-                    <a
-                      className="project-repo"
-                      href={project.repo}
-                      aria-label={`Open ${project.name} GitHub repository`}
-                    >
-                      <LinkIcon name="github" />
-                      <span>GitHub repo</span>
-                    </a>
-                    {project.website && (
-                      <a
-                        className="project-repo"
-                        href={project.website}
-                        aria-label={`Open ${project.name} website`}
-                      >
-                        <svg viewBox="0 0 24 24" aria-hidden="true">
-                          <path d="M14 5h5v5M19 5l-8 8M17 13v6H5V7h6" />
-                        </svg>
-                        <span>Website</span>
-                      </a>
-                    )}
-                  </div>
+                  <ProjectLinks project={project} />
                 </article>
               ))}
             </div>
@@ -351,5 +396,123 @@ export default function App() {
       </section>
       <footer>BRADY / SOFTWARE ENGINEER / 2026</footer>
     </main>
+  );
+}
+
+function SiteNav() {
+  return (
+    <header className="site-header">
+      <nav className="site-nav" aria-label="Primary navigation">
+        <NavLink to="/" end>
+          Home
+        </NavLink>
+        <NavLink to="/projects">Projects</NavLink>
+        <NavLink to="/contact">Contact</NavLink>
+      </nav>
+    </header>
+  );
+}
+
+function ProjectsPage() {
+  usePageTitle("Brady's Portfolio | Projects");
+  return (
+    <main className="page-shell projects-page">
+      <header className="page-heading">
+        <p className="section-kicker">Selected work</p>
+        <h1>
+          Projects built with purpose<span className="accent">.</span>
+        </h1>
+        <p>
+          A closer look at the projects that shaped how I approach engineering,
+          security, and useful software.
+        </p>
+      </header>
+
+      <div className="project-showcase">
+        {projectReviews.map((review, index) => {
+          const project = projects[index];
+          return (
+            <article className="project-feature" key={project.number}>
+              <div className={`project-preview project-preview-${index + 1}`}>
+                <div className="preview-toolbar">
+                  <span />
+                  <span />
+                  <span />
+                </div>
+                <img
+                  className={`project-preview-image ${project.previewClassName}`}
+                  src={project.preview}
+                  alt={project.previewAlt}
+                />
+              </div>
+              <div className="project-feature-copy">
+                <p className="card-meta">
+                  <span>0{index + 1}</span>
+                  <span>Featured project</span>
+                </p>
+                <h2>{project.name}</h2>
+                <div className="project-review">
+                  <p className="review-label">Project review</p>
+                  <p>{review.overview}</p>
+                </div>
+                <ul
+                  className="tech-stack"
+                  aria-label={`${project.name} technology stack`}
+                >
+                  {project.stack.map((technology) => (
+                    <li key={technology}>{technology}</li>
+                  ))}
+                </ul>
+                <ProjectLinks project={project} />
+              </div>
+            </article>
+          );
+        })}
+      </div>
+      <footer>BRADY / SOFTWARE ENGINEER / 2026</footer>
+    </main>
+  );
+}
+
+function ContactPage() {
+  usePageTitle("Brady's Portfolio | Contact");
+  return (
+    <main className="page-shell contact-page">
+      <section className="contact-card" aria-labelledby="contact-heading">
+        <p className="section-kicker">Let's connect</p>
+        <h1 id="contact-heading">
+          If you are looking to hire me, or just chat, message me here
+          <span className="accent">.</span>
+        </h1>
+        <div className="contact-links">
+          <a href="mailto:binkowskibrady@gmail.com">
+            <LinkIcon name="mail" />
+            <span>Email me</span>
+          </a>
+          <a
+            href="https://www.linkedin.com/in/bbinko"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <LinkIcon name="linkedin" />
+            <span>Message on LinkedIn</span>
+          </a>
+        </div>
+      </section>
+    </main>
+  );
+}
+
+export default function App() {
+  return (
+    <div className="app-frame">
+      <SiteNav />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/projects" element={<ProjectsPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="*" element={<HomePage />} />
+      </Routes>
+    </div>
   );
 }
