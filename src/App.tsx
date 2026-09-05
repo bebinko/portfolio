@@ -16,28 +16,28 @@ const photos = [
     number: "04",
     caption: "My girlfriend's cat, Kirby",
     src: "/photos/kirby.jpg",
-    alt: "Kirby the cat",
+    alt: "my girlfriend's cat kirby",
     imageClassName: "kirby-photo",
   },
   {
     number: "03",
     caption: "My dog Barkley, 5 yo",
     src: "/photos/barkley.jpg",
-    alt: "Brady's dog Barkley",
+    alt: "my dog barkley",
     imageClassName: "",
   },
   {
     number: "02",
     caption: "My beautiful girlfriend and me",
     src: "/photos/me-and-gf.jpg",
-    alt: "Brady and his girlfriend",
+    alt: "my girlfriend and me",
     imageClassName: "",
   },
   {
     number: "01",
     caption: "My junior year of college",
     src: "/photos/headshot-photo.jpg",
-    alt: "Brady during his junior year of college",
+    alt: "a headshot photo of me",
     imageClassName: "",
   },
 ] as const;
@@ -60,8 +60,13 @@ const workExperiences = [
     role: "Full-Stack Software Engineer Intern",
     company: "RevCycle Partners",
     period: "May 2025 — August 2025",
-    description:
-      "Integrated legacy and modern systems to support scalable, long-term architecture. Implemented AI automation tooling into production systems to optimize workflows. Built and integrated full-stack components, performing thorough testing prior to production deployment.",
+    logo: "/photos/revcycle_partners_logo.jpg",
+    logoAlt: "RevCycle Partners logo",
+    bullets: [
+      "Integrated legacy and modern systems to support scalable, long-term architecture.",
+      "Implemented AI automation tooling into production systems to optimize workflows.",
+      "Built and integrated full-stack components, performing thorough testing prior to production deployment.",
+    ],
   },
 
   {
@@ -69,8 +74,13 @@ const workExperiences = [
     role: "Student IT Assistant",
     company: "Joliet Junior College",
     period: "August 2022 — August 2024",
-    description:
-      "Maintained and managed technology systems across more than 300 classrooms, ensuring reliable operation. Designed a new e-waste disposal process for technology across four college campuses, creating standardized processes adopted for ongoing use. Supported administrative ERP/business systems, assisting staff and students with system navigation, troubleshooting, and process-related questions.",
+    logo: "/photos/jjc-logo.jpg",
+    logoAlt: "Joliet Junior College logo",
+    bullets: [
+      "Maintained and managed technology systems across more than 300 classrooms, ensuring reliable operation.",
+      "Designed a new e-waste disposal process across four college campuses, creating standardized processes adopted for ongoing use.",
+      "Supported administrative ERP and business systems, helping staff and students with navigation, troubleshooting, and process questions.",
+    ],
   },
 ];
 
@@ -81,6 +91,8 @@ const projects = [
     description:
       "My largest project yet, to assist job-seeking users with 8 AI assisted functions to help them find a career.",
     stack: ["React", "Typescript", "Tailwind CSS"],
+    repo: "https://github.com/bebinko/ai-resume-analyzer",
+    website: "https://breezume.vercel.app/",
   },
   {
     number: "02",
@@ -88,6 +100,7 @@ const projects = [
     description:
       "A simple security-focused program to simulate a local marketplace application for students at Illinois State.",
     stack: ["Java", "SQL"],
+    repo: "https://github.com/itsreverence/isu-marketplace",
   },
   {
     number: "03",
@@ -95,6 +108,7 @@ const projects = [
     description:
       "A simple security-focused program to handle a scalable library inventory system.",
     stack: ["Java", "SQL"],
+    repo: "https://github.com/szyluc/Secure-Java-Coding-Guidelines-IT355",
   },
 ];
 
@@ -206,7 +220,11 @@ export default function App() {
           <h2 id="details-heading">The work behind the person.</h2>
         </div>
 
-        <div className="tabs" role="tablist" aria-label="Portfolio details">
+        <div
+          className={`tabs tabs-${activeTab}`}
+          role="tablist"
+          aria-label="Portfolio details"
+        >
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -234,14 +252,24 @@ export default function App() {
           {activeTab === "work" && (
             <div className="details-grid work-grid">
               {workExperiences.map((experience) => (
-                <article className="detail-card" key={experience.number}>
+                <article
+                  className="detail-card work-card"
+                  key={experience.number}
+                >
                   <div className="card-meta">
                     <span>{experience.number}</span>
                     <span>{experience.period}</span>
                   </div>
+                  <div className="company-logo">
+                    <img src={experience.logo} alt={experience.logoAlt} />
+                  </div>
                   <h3>{experience.role}</h3>
                   <p className="card-subtitle">{experience.company}</p>
-                  <p className="card-description">{experience.description}</p>
+                  <ul className="experience-bullets">
+                    {experience.bullets.map((bullet) => (
+                      <li key={bullet}>{bullet}</li>
+                    ))}
+                  </ul>
                 </article>
               ))}
             </div>
@@ -265,6 +293,28 @@ export default function App() {
                       <li key={`${project.number}-${index}`}>{technology}</li>
                     ))}
                   </ul>
+                  <div className="project-links">
+                    <a
+                      className="project-repo"
+                      href={project.repo}
+                      aria-label={`Open ${project.name} GitHub repository`}
+                    >
+                      <LinkIcon name="github" />
+                      <span>GitHub repo</span>
+                    </a>
+                    {project.website && (
+                      <a
+                        className="project-repo"
+                        href={project.website}
+                        aria-label={`Open ${project.name} website`}
+                      >
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <path d="M14 5h5v5M19 5l-8 8M17 13v6H5V7h6" />
+                        </svg>
+                        <span>Website</span>
+                      </a>
+                    )}
+                  </div>
                 </article>
               ))}
             </div>
@@ -277,6 +327,7 @@ export default function App() {
                   <span>Illinois State University</span>
                   <span>Normal, Illinois</span>
                 </p>
+                <p className="card-meta">August 2024 - December 2026</p>
                 <h3>B.S. in Computer Science</h3>
                 <p className="card-subtitle">Senior Undergraduate</p>
                 <p className="card-subtitle">GPA: 3.72 / 4.00</p>
