@@ -53,8 +53,6 @@ const tabs: { id: TabId; label: string }[] = [
   { id: "education", label: "Education" },
 ];
 
-/* Add a short description of your responsibilities, impact, and what you learned in this role. */
-
 const workExperiences = [
   {
     number: "01",
@@ -307,7 +305,7 @@ function HomePage() {
         </div>
 
         <div
-          className={`tabs tabs-${activeTab}`}
+          className="project-switch home-section-switch"
           role="tablist"
           aria-label="Portfolio details"
         >
@@ -315,9 +313,6 @@ function HomePage() {
             <button
               key={tab.id}
               id={`${tab.id}-tab`}
-              className={
-                activeTab === tab.id ? "tab-button active" : "tab-button"
-              }
               type="button"
               role="tab"
               aria-selected={activeTab === tab.id}
@@ -440,7 +435,7 @@ function ProjectsPage() {
   >("deployed");
 
   return (
-    <main className="page-shell projects-page">
+    <main className="page-shell">
       <header className="page-heading">
         <div
           className="project-switch"
@@ -483,7 +478,7 @@ function ProjectsPage() {
             const project = projects[index];
             return (
               <article className="project-feature" key={project.number}>
-                <div className={`project-preview project-preview-${index + 1}`}>
+                <div className="project-preview">
                   <div className="preview-toolbar">
                     <span />
                     <span />
@@ -526,7 +521,7 @@ function ProjectsPage() {
       ) : (
         <div className="project-showcase upcoming-showcase">
           <article className="project-feature upcoming-feature">
-            <div className="project-preview upcoming-preview">
+            <div className="project-preview">
               <div className="preview-toolbar">
                 <span />
                 <span />
@@ -549,8 +544,8 @@ function ProjectsPage() {
                 <div className="review-lines">
                   <p>
                     An AI-Powered cooking app, designed to give you
-                    recommendation on what to cook based off of the food in your
-                    fridge.
+                    recommendations on what to cook based off of the food in
+                    your fridge.
                   </p>
                   <p>The github repo is not public yet</p>
                 </div>

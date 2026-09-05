@@ -181,7 +181,6 @@ a {
   padding-left: clamp(0.5rem, 2vw, 2rem);
 }
 .eyebrow,
-.gallery-note,
 footer {
   font-family: "DM Mono", monospace;
   text-transform: uppercase;
@@ -288,7 +287,6 @@ h1 {
   min-height: 38rem;
   display: grid;
   place-items: center;
-  perspective: 1200px;
 }
 .gallery-arrow {
   position: absolute;
@@ -336,18 +334,10 @@ h1 {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.gallery-note {
-  position: absolute;
-  top: 0;
-  right: 8%;
-  color: var(--color-grey-olive-500);
-}
 .photo-deck {
   position: relative;
   width: min(28vw, 21.5rem);
   aspect-ratio: 4/5;
-  outline: none;
-  transform-style: preserve-3d;
 }
 .photo-card {
   position: absolute;
@@ -379,9 +369,6 @@ h1 {
 }
 .photo-placeholder {
   height: calc(100% - 3rem);
-  display: grid;
-  place-items: center;
-  position: relative;
   overflow: hidden;
 }
 .photo-placeholder img {
@@ -394,44 +381,6 @@ h1 {
 }
 .photo-placeholder img.kirby-photo {
   object-position: center bottom;
-}
-.photo-placeholder::before,
-.photo-placeholder::after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(2px);
-}
-.photo-placeholder::before {
-  width: 70%;
-  height: 70%;
-  background: color-mix(
-    in srgb,
-    var(--color-frosted-mint-400) 40%,
-    transparent
-  );
-  top: -10%;
-  right: -10%;
-}
-.photo-placeholder::after {
-  width: 60%;
-  height: 60%;
-  background: color-mix(in srgb, var(--color-stone-brown-500) 32%, transparent);
-  bottom: -12%;
-  left: -8%;
-}
-.photo-placeholder span {
-  z-index: 1;
-  font-family: "DM Mono", monospace;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  font-size: 0.6rem;
-  color: var(--color-grey-olive-700);
-  border: 1px solid
-    color-mix(in srgb, var(--color-grey-olive-700) 35%, transparent);
-  padding: 0.55rem 0.75rem;
-  background: rgba(244, 242, 241, 0.34);
-  backdrop-filter: blur(8px);
 }
 .photo-one {
   transform: rotate(-8deg) translate(-10px, 8px);
@@ -448,34 +397,6 @@ h1 {
 .photo-four {
   transform: rotate(3deg) translate(9px, -13px);
   z-index: 4;
-}
-.photo-one .photo-placeholder {
-  background: linear-gradient(
-    145deg,
-    var(--color-stone-brown-300),
-    var(--color-tea-green-500)
-  );
-}
-.photo-two .photo-placeholder {
-  background: linear-gradient(
-    145deg,
-    var(--color-ash-grey-300),
-    var(--color-grey-olive-600)
-  );
-}
-.photo-three .photo-placeholder {
-  background: linear-gradient(
-    145deg,
-    var(--color-tea-green-200),
-    var(--color-stone-brown-400)
-  );
-}
-.photo-four .photo-placeholder {
-  background: linear-gradient(
-    145deg,
-    var(--color-frosted-mint-200),
-    var(--color-ash-grey-500)
-  );
 }
 .photo-deck:hover .photo-one {
   transform: translate(-46%, 10%) rotate(-17deg);
@@ -529,69 +450,6 @@ h1 {
   font-size: clamp(2.25rem, 5vw, 4.5rem);
   line-height: 1;
   letter-spacing: -0.055em;
-}
-.tabs {
-  --tab-position: 0;
-  position: relative;
-  display: flex;
-  width: min(100%, 36rem);
-  gap: 0.35rem;
-  margin: 2.5rem auto 0;
-  padding: 0.35rem;
-  border: 1px solid var(--color-stone-brown-300);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--color-stone-brown-100) 72%, transparent);
-}
-.tabs-projects {
-  --tab-position: 1;
-}
-.tabs-education {
-  --tab-position: 2;
-}
-.tabs::before {
-  content: "";
-  position: absolute;
-  z-index: 0;
-  top: 0.35rem;
-  bottom: 0.35rem;
-  left: 0.35rem;
-  width: calc((100% - 1.4rem) / 3);
-  border-radius: 999px;
-  background: var(--color-stone-brown-50);
-  box-shadow: 0 4px 14px rgba(29, 26, 22, 0.09);
-  transform: translateX(calc(var(--tab-position) * (100% + 0.35rem)));
-  transition: transform 0.48s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.tab-button {
-  position: relative;
-  z-index: 1;
-  flex: 1 1 0;
-  min-width: 0;
-  min-height: 2.75rem;
-  padding: 0.65rem 1.15rem;
-  border: 0;
-  border-radius: 999px;
-  color: var(--color-stone-brown-600);
-  background: transparent;
-  font-family: "DM Mono", monospace;
-  font-size: 0.78rem;
-  cursor: pointer;
-  transition:
-    color 0.2s,
-    background 0.2s,
-    box-shadow 0.2s;
-}
-.tab-button:hover {
-  color: var(--color-stone-brown-950);
-}
-.tab-button:focus-visible {
-  outline: 2px solid var(--color-tea-green-600);
-  outline-offset: 2px;
-}
-.tab-button.active {
-  color: var(--color-stone-brown-950);
-  background: transparent;
-  box-shadow: none;
 }
 .tab-panel {
   width: 100%;
@@ -810,6 +668,7 @@ h1 {
   gap: clamp(1.25rem, 3vw, 2.5rem);
   margin: 0 auto 2rem;
 }
+.home-section-switch { margin-top: 2.5rem; }
 .project-switch button {
   position: relative;
   padding: 0.25rem 0;
@@ -833,11 +692,19 @@ h1 {
   transform-origin: right;
   transition: transform 0.3s ease;
 }
-.project-switch button[aria-selected="true"] { color: var(--color-stone-brown-950); }
+.project-switch button[aria-selected="true"] {
+  color: var(--color-stone-brown-950);
+}
 .project-switch button[aria-selected="true"]::after,
 .project-switch button:hover::after,
-.project-switch button:focus-visible::after { transform: scaleX(1); transform-origin: left; }
-.project-switch button:focus-visible { color: var(--color-stone-brown-950); outline: none; }
+.project-switch button:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.project-switch button:focus-visible {
+  color: var(--color-stone-brown-950);
+  outline: none;
+}
 .page-heading h1 {
   max-width: 62rem;
   margin: 0 auto;
@@ -898,43 +765,6 @@ h1 {
   object-fit: contain;
   background: #f7f8fa;
 }
-.preview-placeholder {
-  display: grid;
-  place-content: center;
-  gap: 0.65rem;
-  height: calc(100% - 2.25rem);
-  padding: 2rem;
-  text-align: center;
-  background: linear-gradient(
-    145deg,
-    var(--color-tea-green-100),
-    var(--color-ash-grey-300)
-  );
-}
-.project-preview-2 .preview-placeholder {
-  background: linear-gradient(
-    145deg,
-    var(--color-ash-grey-200),
-    var(--color-grey-olive-400)
-  );
-}
-.project-preview-3 .preview-placeholder {
-  background: linear-gradient(
-    145deg,
-    var(--color-stone-brown-200),
-    var(--color-tea-green-300)
-  );
-}
-.preview-placeholder span {
-  color: var(--color-stone-brown-800);
-  font-size: clamp(1.25rem, 2.5vw, 2rem);
-  font-weight: 700;
-}
-.preview-placeholder small {
-  color: var(--color-stone-brown-600);
-  font-family: "DM Mono", monospace;
-  font-size: 0.75rem;
-}
 .project-feature-copy {
   text-align: left;
 }
@@ -945,13 +775,9 @@ h1 {
   line-height: 1.05;
   letter-spacing: -0.045em;
 }
-.project-feature-copy > p:not(.card-meta) {
-  margin: 1.35rem 0 0;
-  color: var(--color-stone-brown-600);
-  font-size: 1rem;
-  line-height: 1.75;
+.project-review {
+  margin-top: 1.5rem;
 }
-.project-review { margin-top: 1.5rem; }
 .project-review .review-label {
   margin: 0 0 0.65rem;
   color: var(--color-tea-green-700);
@@ -970,9 +796,12 @@ h1 {
   font-size: 1rem;
   line-height: 1.75;
 }
-.upcoming-showcase { max-width: 62rem; }
-.upcoming-feature { grid-template-columns: minmax(0, 1.05fr) minmax(18rem, 0.95fr); }
-.upcoming-preview { border-style: solid; }
+.upcoming-showcase {
+  max-width: 62rem;
+}
+.upcoming-feature {
+  grid-template-columns: minmax(0, 1.05fr) minmax(18rem, 0.95fr);
+}
 .contact-page {
   display: flex;
   flex-direction: column;
@@ -984,7 +813,10 @@ h1 {
   margin-top: clamp(2.5rem, 7vh, 5.5rem);
   text-align: center;
 }
-.contact-page .site-footer { align-self: center; margin-top: auto; }
+.contact-page .site-footer {
+  align-self: center;
+  margin-top: auto;
+}
 .contact-card h1 {
   margin: 0 auto;
   font-size: clamp(2.5rem, 5.25vw, 5.25rem);
@@ -1036,6 +868,7 @@ h1 {
   fill: currentColor;
   stroke: none;
 }
+
 @media (max-width: 900px) {
   .site-shell {
     grid-template-columns: 1fr;
@@ -1052,9 +885,6 @@ h1 {
   }
   .photo-deck {
     width: min(59vw, 19rem);
-  }
-  .gallery-note {
-    right: 0;
   }
   .details-section {
     margin-top: 3rem;
@@ -1110,22 +940,6 @@ h1 {
   }
   .photo-deck:hover .photo-four {
     transform: translate(32%, 10%) rotate(14deg);
-  }
-  .tabs {
-    display: grid;
-    width: 100%;
-    border-radius: 1rem;
-  }
-  .tabs::before {
-    top: 0.35rem;
-    bottom: auto;
-    width: calc(100% - 0.7rem);
-    height: calc((100% - 1.4rem) / 3);
-    border-radius: 0.75rem;
-    transform: translateY(calc(var(--tab-position) * (100% + 0.35rem)));
-  }
-  .tab-button {
-    width: 100%;
   }
   .work-grid {
     grid-template-columns: 1fr;
