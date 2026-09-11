@@ -300,8 +300,7 @@ function HomePage() {
       </section>
       <section className="details-section" aria-labelledby="details-heading">
         <div className="section-heading">
-          <p className="section-kicker">More about me</p>
-          <h2 id="details-heading">The work behind the person.</h2>
+          <h2 id="details-heading">My experience in software.</h2>
         </div>
 
         <div

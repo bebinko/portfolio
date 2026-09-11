@@ -432,7 +432,7 @@ h1 {
   grid-column: 1 / -1;
   width: 100%;
   max-width: 72rem;
-  margin: clamp(4rem, 8vw, 8rem) auto 0;
+  margin: clamp(4rem, 8vw, 4rem) auto 0;
   text-align: center;
 }
 .section-kicker {
@@ -668,7 +668,9 @@ h1 {
   gap: clamp(1.25rem, 3vw, 2.5rem);
   margin: 0 auto 2rem;
 }
-.home-section-switch { margin-top: 2.5rem; }
+.home-section-switch {
+  margin-top: 2.5rem;
+}
 .project-switch button {
   position: relative;
   padding: 0.25rem 0;
